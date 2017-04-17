@@ -34,6 +34,19 @@ class Kele
   end
 =end
 
+  def get_messages(page = nil)
+    if page == nil
+      response = self.class.get(api_url("message_threads"), headers: { "authorization" => @auth_token })
+    else
+      response = self.class.get(api_url("message_threads"), headers: { "authorization" => @auth_token }, body: { page: page })
+    end
+    @messages = JSON.parse(response.body)
+  end
+
+  def send_message(sender, recipient_id, subject, stripped_text)
+    response = self.class.post(api_url("messages"), headers: { "authorization" => @auth_token }, body: { sender: sender, recipient_id: recipient_id, subject: subject, stripped_text: stripped_text })
+  end
+
   def api_url(end_point)
     "https://www.bloc.io/api/v1/#{end_point}"
     # "https://private-anon-6b17356c10-blocapi.apiary-mock.com/api/v1/#{end_point}"
