@@ -47,6 +47,10 @@ class Kele
     response = self.class.post(api_url("messages"), headers: { "authorization" => @auth_token }, body: { sender: sender, recipient_id: recipient_id, subject: subject, stripped_text: stripped_text })
   end
 
+  def create_submission(checkpoint_id, assignment_branch, assignment_commit_link, comment)
+    response = self.class.post(api_url("checkpoint_submissions"), headers: { "authorization" => @auth_token }, body: { assignment_branch: assignment_branch, assignment_commit_link: assignment_commit_link, checkpoint_id: checkpoint_id, comment: comment })
+  end
+
   def api_url(end_point)
     "https://www.bloc.io/api/v1/#{end_point}"
     # "https://private-anon-6b17356c10-blocapi.apiary-mock.com/api/v1/#{end_point}"
